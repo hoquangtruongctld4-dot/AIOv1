@@ -1,0 +1,189 @@
+﻿<Window x:Class= "subphimv1.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Cài đặt Nâng cao" Height="725" Width="505" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        ShowInTaskbar="False"      
+    WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1" CornerRadius="8" Background="{StaticResource WindowBackgroundColor}">
+        <Grid>
+            <Grid Grid.Row="1" Margin="10,0,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TabControl Grid.Row="0">
+            <TabItem Header="Google Cloud OCR" Margin="0,-1,3,1">
+                <StackPanel Margin="10">
+                            <Label Content="ID Thư mục Google Drive:" Target="{Binding ElementName=GoogleDriveFolderIdComboBox}"/>
+                            <ComboBox x:Name="GoogleDriveFolderIdComboBox" IsEditable="True" Margin="0,0,0,10"
+          ToolTip="Chọn một ID thư mục có sẵn hoặc dán một ID tùy chỉnh vào đây."/>
+                        </StackPanel>
+            </TabItem>
+            <TabItem Header="Gemini API OCR" Margin="-2,-1,-2,1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <Label Content="Key API Gemini (mỗi Key một dòng):" Target="{Binding ElementName=GeminiApiKeysOcrTextBox}"/>
+                        <TextBox x:Name="GeminiApiKeysOcrTextBox" Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="0,0,0,10" ToolTip="Nhập mỗi khóa API trên một dòng riêng biệt."/>
+
+                        <Label Content="Số ảnh tối đa/request:" Target="{Binding ElementName=GeminiImagesPerRequestOcrTextBox}"/>
+                        <TextBox x:Name="GeminiImagesPerRequestOcrTextBox" Margin="0,0,0,10" ToolTip="Số lượng ảnh được API Gemini xử lý trong một request (API OCR)." Height="29" Width="62"/>
+
+                        <Label Content="Số yêu cầu tối đa mỗi phút (mỗi key API OCR):" Target="{Binding ElementName=GeminiRequestsPerMinuteOcrTextBox}"/>
+                        <TextBox x:Name="GeminiRequestsPerMinuteOcrTextBox" Margin="0,0,0,10" ToolTip="Giới hạn số lượng request mà mỗi khóa API Gemini (OCR) có thể thực hiện trong một phút." Height="29" Width="62"/>
+
+                        <CheckBox x:Name="GeminiEnableMultiKeyOcrCheckBox" Content="Sử dụng nhiều Key API" Margin="0,5,0,10" ToolTip="Cho phép ứng dụng luân phiên sử dụng các khóa API Gemini đã cung cấp."/>
+                        <Label Content="Model Gemini OCR:" Margin="0,10,0,0"/>
+                        <ComboBox x:Name="GeminiModelOcrComboBox" IsEditable="True" Margin="0,0,0,5"
+                      ToolTip="Chọn hoặc nhập tên model Gemini cho OCR. Ví dụ: gemini-pro-vision, gemini-1.5-flash-latest"/>
+                        <Button x:Name="AddGeminiCustomModelOcrButton" Content="Thêm Model Custom (OCR)" 
+                    Click="AddCustomModelOcrButton_Click" Tag="GeminiOCR" 
+                    Width="180" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Cài đặt Lấy Sub" Margin="6,-1,-8,1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                                <CheckBox x:Name="UISettingsUseCudaCheck" Content="Sử dụng GPU Nvidia" Margin="0,10,0,0"/>
+                        <Label Content="Cài đặt dọn dẹp sau OCR:" Margin="0,15,0,0" FontWeight="Bold" Height="27"/>
+                        <CheckBox x:Name="UISettingsDeleteRawTextsCheck" Content="Xoá thư mục raw_texts sau khi hoàn thành OCR" Margin="0,5,0,0"/>
+                        <CheckBox x:Name="UISettingsDeleteTextsCheck" Content="Xoá thư mục texts sau khi hoàn thành OCR" Margin="0,5,0,0"/>
+                        <CheckBox x:Name="UISettingsCompressRawTextsCheck" Content="Nén thư mục raw_texts thành file .zip" Margin="0,5,0,0"/>
+                        <Label Content="Đường dẫn VideoSubFinder:" Target="{Binding ElementName=PathVsfTextBox}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="PathVsfTextBox" Margin="0,0,5,10" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" x:Name="BrowseVsfButton" Content="Duyệt..." Click="BrowseVsfButton_Click" Width="80" Height="23" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Label Content="Tên thư mục ảnh OCR:" Margin="0,5,0,0" Target="{Binding ElementName=OcrTextFolderNameTextBox}"/>
+                        <TextBox x:Name="OcrTextFolderNameTextBox" Margin="0,0,0,10" ToolTip="Tên thư mục con (bên trong thư mục output của AIOSubPhim) chứa ảnh đã được trích xuất (mặc định: TXTImages)."/>
+
+                                <Label Content="Tham số dòng lệnh cho AIOSubPhim" Target="{Binding ElementName=CmdVsfArgsTextBox}"/>
+                        <TextBox x:Name="CmdVsfArgsTextBox" Margin="0,0,0,10" ToolTip="Các cờ lệnh bổ sung cho VideoSubFinder (ví dụ: -ccti)."/>
+
+                        <Label Content="Thư mục Output chính cho AIOSubPhim:" Target="{Binding ElementName=CustomVsfOutputBaseDirTextBox}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="CustomVsfOutputBaseDirTextBox" Margin="0,0,5,10" VerticalAlignment="Center" ToolTip="Đường dẫn TUYỆT ĐỐI đến thư mục output chính cho VideoSubFinder. Để trống nếu muốn sử dụng thư mục '..' (một cấp trên thư mục ứng dụng)."/>
+                            <Button Grid.Column="1" x:Name="BrowseVsfOutputDirButton" Content="Duyệt..." Click="BrowseVsfOutputDirButton_Click" Width="80" Height="23" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Label Content="Thư mục Output cho file Subtitle:" Target="{Binding ElementName=CustomSubtitleOutputDirTextBox}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="CustomSubtitleOutputDirTextBox" Margin="0,0,5,10" VerticalAlignment="Center" ToolTip="Đường dẫn TUYỆT ĐỐI đến thư mục lưu trữ file phụ đề .srt đã hoàn thành. Để trống nếu muốn sử dụng thư mục '..' (một cấp trên thưmuc ứng dụng)."/>
+                            <Button Grid.Column="1" x:Name="BrowseSubtitleOutputDirButton" Content="Duyệt..." Click="BrowseSubtitleOutputDirButton_Click" Width="80" Height="23" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <Label Content="Chế độ xử lý AIOSubPhim:" Margin="0,10,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
+                            <RadioButton x:Name="UISettingsVsfModeCleanRadio" Content="Làm sạch và Tạo ảnh OCR" GroupName="UISettingsVsfProcessingMode" Margin="0,0,10,0"/>
+                            <RadioButton x:Name="UISettingsVsfModeSearchOnlyRadio" Content="Chỉ Tìm kiếm Sub" GroupName="UISettingsVsfProcessingMode"/>
+                        </StackPanel>
+
+                                <Label Content="Phương thức mở video (AIOSubPhim):" Margin="0,10,0,0"/>
+                        <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
+                            <RadioButton x:Name="UISettingsVsfOpenDefaultRadio" Content="Default" GroupName="UISettingsVsfOpenMethod" Margin="0,0,10,0"/>
+                            <RadioButton x:Name="UISettingsVsfOpenCvRadio" Content="OpenCV" GroupName="UISettingsVsfOpenMethod" Margin="0,0,10,0"/>
+                            <RadioButton x:Name="UISettingsVsfFfmpegRadio" Content="FFmpeg (hỗ trợ CUDA)" GroupName="UISettingsVsfOpenMethod"/>
+                        </StackPanel>
+
+                        <Label Content="Luồng tối đa cho tìm Sub (AIOSubPhim):" Target="{Binding ElementName=UISettingsVsfNumThreadsSearchEntry}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="UISettingsVsfNumThreadsSearchEntry" Width="60" Margin="0,0,5,10"/>
+                                    <TextBlock Text="(-1 = mặc định AIOSubPhim" VerticalAlignment="Center" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}"/>
+                        </StackPanel>
+
+                                <Label Content="Luồng tối đa cho làm sạch (AIOSubPhim):" Target="{Binding ElementName=UISettingsVsfNumThreadsCleanEntry}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="UISettingsVsfNumThreadsCleanEntry" Width="60" Margin="0,0,5,10"/>
+                            <TextBlock Text="(-1 = mặc định AIOSubPhim)" VerticalAlignment="Center" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Cài đặt Dịch SRT" Margin="6,-1,-8,1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <Label Content="API Dịch SRT:" FontWeight="Bold" Foreground="{StaticResource TextColor}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <RadioButton x:Name="SrtProviderAIOLauncherRadio" Content="AIOLauncher" GroupName="SrtApiProvider" Margin="0,0,10,0" Checked="SrtApiProvider_CheckedChanged"/>
+                                    <RadioButton x:Name="SrtProviderChutesAIRadio" Content="DTNV" GroupName="SrtApiProvider" Margin="0,0,10,0" Checked="SrtApiProvider_CheckedChanged"/>
+                                    <RadioButton x:Name="SrtProviderGeminiRadio" Content="Gemini" GroupName="SrtApiProvider" Checked="SrtApiProvider_CheckedChanged"/>
+                                    <RadioButton x:Name="SrtProviderChatGPTRadio" Content="ChatGPT" GroupName="SrtApiProvider" Checked="SrtApiProvider_CheckedChanged"/>
+                                </StackPanel>
+
+                                <GroupBox Header="Cài đặt API DTNV / ChatGPT" x:Name="ChutesAISrtSettingsGroup">
+                                    <StackPanel>
+                                        <Label Content="API Key DTNV / ChatGPT:"/>
+                                        <PasswordBox x:Name="ChutesApiKeySrtPasswordBox" Margin="0,0,0,10"/>
+                                        <StackPanel x:Name="ChutesModelControls">
+                                            <Label Content="Model DTNV:"/>
+                                            <ComboBox x:Name="ChutesModelSrtComboBox" IsEditable="True" Margin="0,0,0,5">
+                                            </ComboBox>
+                                            <Button x:Name="AddChutesCustomModelSrtButton" Content="Thêm Model Custom" Click="AddCustomModelSrtButton_Click" Tag="ChutesAI" Width="150" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                                        </StackPanel>
+                                        <StackPanel x:Name="ChatGPTModelControls">
+                                            <Label Content="Model ChatGPT:"/>
+                                            <ComboBox x:Name="ChatGPTModelSrtComboBox" IsEditable="True" Margin="0,0,0,5"/>
+                                            <Button Content="Thêm Model Custom" Click="AddCustomModelSrtButton_Click" Tag="ChatGPT" Width="150" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                                            <Label Content="Số dòng tối đa mỗi batch:"/>
+                                            <TextBox x:Name="ChatGPTSrtBatchSizeTextBox" Margin="0,0,0,10" Text="40"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Cài đặt Gemini" Margin="0,10,0,0" x:Name="GeminiSrtSettingsGroup">
+                            <StackPanel>
+                                <Label Content="API Key Gemini (mỗi Key một dòng):"/>
+                                <TextBox x:Name="GeminiApiKeysSrtTextBox" Height="80" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="0,0,0,10" ToolTip="Nhập mỗi khóa API trên một dòng riêng biệt."/>
+                                <CheckBox x:Name="GeminiEnableMultiKeySrtCheckBox" Content="Sử dụng nhiều Key API (Dịch SRT)" Margin="0,0,0,10" ToolTip="Cho phép ứng dụng luân phiên sử dụng các khóa API Gemini (Dịch SRT) đã cung cấp."/>
+
+                                <Label Content="Model Gemini:"/>
+                                <ComboBox x:Name="GeminiModelSrtComboBox" IsEditable="True" Margin="0,0,0,5">
+                                </ComboBox>
+                                <Button x:Name="AddGeminiCustomModelSrtButton" Content="Thêm Model Custom" Click="AddCustomModelSrtButton_Click" Tag="Gemini" Width="150" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                                <Label Content="Số yêu cầu tối đa mỗi phút (mỗi key Gemini Dịch SRT):"/>
+                                <TextBox x:Name="GeminiSrtRpmTextBox" Margin="0,0,0,10" Text="5"/>
+                                <Label Content="Số dòng tối đa mỗi batch:"/>
+                                <TextBox x:Name="GeminiSrtBatchSizeTextBox" Margin="0,0,0,10" Text="120"/>
+                                <Label Content="Thinking Budget (Gemini Dịch SRT):"/>
+                                <TextBox x:Name="GeminiSrtThinkingBudgetTextBox" Margin="0,0,0,10" Text="0" ToolTip="Giá trị thinking_budget cho Gemini API (0 để không gửi, mặc định API thường là 5000 nếu có)."/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Reset về Mặc định" Width="140" Margin="5" 
+                            HorizontalAlignment="Left" Click="ResetButton_Click" 
+                            ToolTip="Khôi phục tất cả cài đặt về mặc định, ngoại trừ các API Key."/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Lưu" Width="80" Margin="5" Click="SaveButton_Click" IsDefault="True"/>
+                        <Button Content="Hủy" Width="80" Margin="5" Click="CancelButton_Click" IsCancel="True"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,331 @@
+﻿:root {
+    --primary-bg-color: #1a1d21;
+    --secondary-bg-color: #23272c;
+    --text-color: #e1e1e1;
+    --text-secondary-color: #8a929a;
+    --accent-color: #00aacc;
+    --border-color: #3a4149;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--secondary-bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-right: 40px;
+}
+
+.search-container {
+    display: flex;
+    flex-grow: 1;
+    max-width: 500px;
+}
+
+    .search-container input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid var(--border-color);
+        background-color: var(--primary-bg-color);
+        color: var(--text-color);
+        border-radius: 6px 0 0 6px;
+        outline: none;
+    }
+
+    .search-container button {
+        padding: 10px 20px;
+        border: 1px solid var(--border-color);
+        background-color: #333;
+        color: var(--text-secondary-color);
+        cursor: pointer;
+        border-radius: 0 6px 6px 0;
+        border-left: none;
+    }
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+    .user-actions a {
+        color: var(--text-secondary-color);
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 14px;
+    }
+
+    .user-actions .login-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+main {
+    padding: 30px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.movie-section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+#loading-indicator {
+    text-align: center;
+    padding: 50px;
+    color: var(--text-secondary-color);
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    background-color: var(--secondary-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+    .movie-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 170, 204, 0.3);
+        border-color: var(--accent-color);
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        display: block;
+    }
+
+.movie-info {
+    padding: 10px;
+}
+
+.movie-title {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-episodes {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.breadcrumb {
+    margin-bottom: 20px;
+    color: var(--text-secondary-color);
+}
+
+    .breadcrumb a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+.details-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 30px;
+}
+
+/* Cột trái */
+.details-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#video-player-container {
+    background-color: black;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+    #video-player-container video {
+        width: 100%;
+        height: 100%;
+    }
+
+.player-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+    .player-placeholder img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.6;
+    }
+
+.play-button-overlay {
+    position: absolute;
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 15px black;
+}
+
+#episode-selection-container {
+    background-color: var(--secondary-bg-color);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+    #episode-selection-container h3 {
+        margin-bottom: 15px;
+    }
+
+#episode-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+}
+
+.episode-btn {
+    background-color: #3e444a;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+    .episode-btn:hover {
+        background-color: #50575e;
+    }
+
+    .episode-btn.active {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+        font-weight: bold;
+    }
+
+.player-controls {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    background-color: var(--secondary-bg-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-label {
+    color: var(--text-secondary-color);
+}
+
+.quality-btn, .server-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary-color);
+    padding: 6px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .quality-btn.active, .server-btn.active {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+.details-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+    .details-sidebar h1 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+.add-to-favorites-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+
+.details-sidebar ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.8;
+}
+
+    .details-sidebar ul li strong {
+        color: var(--text-secondary-color);
+    }
+
+#details-synopsis {
+    color: var(--text-secondary-color);
+    line-height: 1.6;
+    font-size: 14px;
+}

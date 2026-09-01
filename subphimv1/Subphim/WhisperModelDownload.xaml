@@ -1,0 +1,66 @@
+﻿<Window x:Class="subphimv1.WhisperModelDownloaderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:subphimv1"
+        mc:Ignorable="d"
+        Title="Tải xuống Whisper Models" Height="220" Width="450"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Style="{StaticResource BorderlessToolWindowStyle}"
+        MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <!-- Style cho ProgressBar không đổi -->
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+            <Setter Property="Background" Value="{StaticResource PanelBackgroundColor}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="2">
+                            <Grid x:Name="PART_Track">
+                                <Rectangle x:Name="PART_Indicator" 
+                                           HorizontalAlignment="Left" 
+                                           Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Thêm lại hàng cho nút Đóng -->
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Chọn model để tải xuống:" Margin="0,0,0,5" Foreground="{StaticResource TextColor}"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="ModelComboBox" Grid.Column="0" VerticalContentAlignment="Center"/>
+            <Button x:Name="DownloadButton" Grid.Column="1" Content="Tải về" Width="80" Margin="10,0,0,0" Click="DownloadButton_Click"/>
+        </Grid>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <ProgressBar x:Name="DownloadProgressBar" Height="18" Margin="0,10"/>
+            <TextBlock x:Name="StatusTextBlock" Text="Sẵn sàng" TextAlignment="Center" FontStyle="Italic" Foreground="{StaticResource TextSecondaryColor}"/>
+        </StackPanel>
+
+        <!-- *** KHÔI PHỤC LẠI NÚT ĐÓNG *** -->
+        <Button Grid.Row="3" Content="Đóng" Width="80" HorizontalAlignment="Right" Click="CloseButton_Click" IsCancel="True"/>
+    </Grid>
+</Window>

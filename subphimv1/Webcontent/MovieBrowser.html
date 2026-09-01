@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình duyệt Phim</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">AIOPHIM>COM</div>
+        <div class="search-container">
+            <input type="text" placeholder="Tìm kiếm phim...">
+            <button>Tìm</button>
+        </div>
+        <div class="user-actions">
+            <a href="#">Lịch sử xem</a>
+            <a href="#">Phim yêu thích</a>
+        </div>
+    </header>
+
+    <main>
+        <div id="home-view">
+            <div id="loading-indicator">
+                <h2>Đang tải danh sách phim, vui lòng chờ...</h2>
+            </div>
+            <section id="newly-updated-section" class="movie-section hidden">
+                <h2>Mới Cập Nhật</h2>
+                <div class="movie-grid" id="newly-updated-grid">
+                </div>
+            </section>
+            <section id="ranking-section" class="movie-section hidden">
+                <h2>Bảng Xếp Hạng</h2>
+                <div class="ranking-list" id="ranking-list">
+                </div>
+            </section>
+        </div>
+        <div id="details-view" class="hidden">
+            <div class="breadcrumb">
+                <a href="#" id="back-to-home">Trang chủ</a> / <span id="movie-breadcrumb-title">Tên Phim</span>
+            </div>
+
+            <div class="details-layout">
+                <div class="details-main">
+                    <div id="video-player-container">
+                        <div class="player-placeholder">
+                            <img id="player-poster" src="" alt="Poster phim" />
+                            <div class="play-button-overlay">▶</div>
+                        </div>
+                    </div>
+
+                    <div id="episode-selection-container">
+                        <h3>Danh sách tập</h3>
+                        <div id="episode-list">
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <div class="control-group">
+                            <span class="control-label">Chất lượng:</span>
+                            <button class="quality-btn active">HD+</button>
+                            <button class="quality-btn">1080</button>
+                            <button class="quality-btn">4K</button>
+                        </div>
+                        <div class="control-group">
+                            <span class="control-label">Server:</span>
+                            <button class="server-btn active">Link8</button>
+                            <button class="server-btn">Link10</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-sidebar">
+                    <h1 id="details-title">Tên phim</h1>
+                    <button class="add-to-favorites-btn">+ Thêm vào Phim Yêu Thích</button>
+                    <ul>
+                        <li><strong>Trạng thái:</strong> <span id="details-status">Đang chiếu</span></li>
+                        <li><strong>Thể loại:</strong> <span id="details-genre">Huyền Huyễn, Cổ Trang</span></li>
+                        <li><strong>Năm:</strong> <span id="details-year">2020</span></li>
+                    </ul>
+                    <p id="details-synopsis">
+                        Một ngày nọ, thế giới xuất hiện loại virus RR không rõ lai lịch, cuốn thế giới vào thảm hoạ. Động vật bị truyền nhiễm đột biến thành quái thú đáng sợ, xâm lược và số lượng lớn. Trong lúc loài người đối mặt với diệt vong, họ đã xây lên bức tường bao vây, thành lập căn cứ làm pháo đài cuối cùng bảo vệ...
+                    </p>
+                </div>
+            </div>
+            <section id="related-movies-section" class="movie-section">
+                <h2>Phần Liên Quan</h2>
+                <div class="movie-grid" id="related-movies-grid">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

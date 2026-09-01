@@ -1,0 +1,312 @@
+﻿<Window x:Class="subphimv1.FindReplaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="700" Width="1200" 
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        AllowsTransparency="True" 
+        WindowStyle="None" 
+        Background="Transparent"
+        Loaded="Window_Loaded">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="30"
+                      ResizeBorderThickness="8"
+                      CornerRadius="0"
+                      GlassFrameThickness="0"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!-- Style cho Button -->
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF0E639C"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="3"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF1177BB"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF0D5A8F"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#FF3E3E42"/>
+                    <Setter Property="Foreground" Value="#FF808080"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style cho TextBox -->
+        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#FF3E3E42"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF007ACC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Style cho CheckBox -->
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="5,0"/>
+        </Style>
+
+        <!-- Style cho DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#FF252526"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF3F3F46"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="#FF2D2D30"/>
+            <Setter Property="AlternatingRowBackground" Value="#FF333337"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#FF3E3E42"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="BorderBrush" Value="#FF007ACC"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF3E3E42"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF007ACC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF007ACC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="#FF3F3F46" BorderThickness="1" Background="#FF2D2D30">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Draggable Title Bar Area -->
+            <Grid Grid.Row="0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"/>
+
+            <!-- Panel tìm kiếm và thay thế -->
+            <Border Grid.Row="1" Background="#FF3E3E42" CornerRadius="5" Padding="15" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Find -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" 
+                               Text="Tìm kiếm:" 
+                               Foreground="White" 
+                               VerticalAlignment="Center" 
+                               FontSize="13" 
+                               Margin="0,0,10,0"/>
+                    <TextBox x:Name="FindTextBox" 
+                             Grid.Row="0" Grid.Column="1" 
+                             Style="{StaticResource ModernTextBoxStyle}"
+                             TextChanged="FindTextBox_TextChanged"
+                             Margin="0,5"/>
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="FindNextButton" 
+                                Content="Tìm tiếp" 
+                                Style="{StaticResource ModernButtonStyle}"
+                                Click="FindNextButton_Click"
+                                Width="100"/>
+                        <Button x:Name="FindPreviousButton" 
+                                Content="Tìm trước" 
+                                Style="{StaticResource ModernButtonStyle}"
+                                Click="FindPreviousButton_Click"
+                                Width="100"/>
+                    </StackPanel>
+
+                    <!-- Replace -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
+                               Text="Thay thế:" 
+                               Foreground="White" 
+                               VerticalAlignment="Center" 
+                               FontSize="13" 
+                               Margin="0,0,10,0"/>
+                    <TextBox x:Name="ReplaceTextBox" 
+                             Grid.Row="1" Grid.Column="1" 
+                             Style="{StaticResource ModernTextBoxStyle}"
+                             Margin="0,5"/>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="ReplaceButton" 
+                                Content="Thay thế" 
+                                Style="{StaticResource ModernButtonStyle}"
+                                Click="ReplaceButton_Click"
+                                Width="100"/>
+                        <Button x:Name="ReplaceAllButton" 
+                                Content="Thay thế tất cả" 
+                                Style="{StaticResource ModernButtonStyle}"
+                                Click="ReplaceAllButton_Click"
+                                Width="120"/>
+                    </StackPanel>
+
+                    <!-- Options -->
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0">
+                        <CheckBox x:Name="CaseSensitiveCheckBox" 
+                                  Content="Phân biệt chữ hoa/thường" 
+                                  Style="{StaticResource ModernCheckBoxStyle}"
+                                  IsChecked="False"/>
+                        <CheckBox x:Name="SearchOriginalCheckBox" 
+                                  Content="Tìm trong văn bản gốc" 
+                                  Style="{StaticResource ModernCheckBoxStyle}"
+                                  IsChecked="True"
+                                  Margin="20,0,0,0"/>
+                        <CheckBox x:Name="SearchTranslatedCheckBox" 
+                                  Content="Tìm trong bản dịch" 
+                                  Style="{StaticResource ModernCheckBoxStyle}"
+                                  IsChecked="True"
+                                  Margin="20,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Status -->
+                    <TextBlock x:Name="StatusTextBlock" 
+                               Grid.Row="2" Grid.Column="2" 
+                               Foreground="#FFAAAAAA" 
+                               VerticalAlignment="Center" 
+                               FontSize="12" 
+                               Margin="10,10,0,0"/>
+                </Grid>
+            </Border>
+
+            <!-- DataGrid hiển thị subtitles -->
+            <DataGrid x:Name="SubtitlesDataGrid" 
+                      Grid.Row="2" 
+                      ItemsSource="{Binding SubtitleItems}"
+                      SelectionChanged="SubtitlesDataGrid_SelectionChanged"
+                      CellEditEnding="SubtitlesDataGrid_CellEditEnding">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="STT" 
+                                        Binding="{Binding Index}" 
+                                        Width="60" 
+                                        IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Timecode" 
+                                        Binding="{Binding TimeCode}" 
+                                        Width="200" 
+                                        IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Văn bản gốc" 
+                                        Binding="{Binding OriginalText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        Width="*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="AcceptsReturn" Value="True"/>
+                                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Văn bản đã dịch" 
+                                        Binding="{Binding TranslatedText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                        Width="*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="Padding" Value="5"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn.EditingElementStyle>
+                            <Style TargetType="TextBox">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                <Setter Property="AcceptsReturn" Value="True"/>
+                                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                            </Style>
+                        </DataGridTextColumn.EditingElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Bottom buttons -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button x:Name="OkButton" 
+                        Content="OK - Áp dụng" 
+                        Style="{StaticResource ModernButtonStyle}"
+                        Click="OkButton_Click"
+                        Width="120"
+                        Background="#FF16A085"/>
+                <Button x:Name="CancelButton" 
+                        Content="Huỷ" 
+                        Style="{StaticResource ModernButtonStyle}"
+                        Click="CancelButton_Click"
+                        Width="100"
+                        Background="#FF6C6C6C"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

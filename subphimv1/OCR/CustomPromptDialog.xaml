@@ -1,0 +1,30 @@
+﻿<Window x:Class="subphimv1.CustomPromptDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Prompt Dịch Tùy Chỉnh" Height="350" Width="450"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Style="{StaticResource BorderlessToolWindowStyle}"
+        Padding="15">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,10"
+                   Foreground="{StaticResource TextSecondaryColor}">
+            Nhập các chỉ dẫn dịch bổ sung của bạn vào đây. Prompt này sẽ được thêm vào sau prompt gốc để tùy chỉnh kết quả dịch (ví dụ: "Dịch tên nhân vật thành Hán Việt").
+        </TextBlock>
+
+        <TextBox x:Name="PromptTextBox" Grid.Row="1" 
+                 AcceptsReturn="True" 
+                 TextWrapping="Wrap" 
+                 VerticalScrollBarVisibility="Auto"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Hủy" IsCancel="True" Width="80" Background="{StaticResource PanelBackgroundColor}"/>
+            <Button Content="Lưu" IsDefault="True" Width="80" Margin="10,0,0,0" Click="SaveButton_Click" Background="{StaticResource AccentColor}"/>
+        </StackPanel>
+    </Grid>
+</Window>
